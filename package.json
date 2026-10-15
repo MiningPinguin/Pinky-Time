@@ -10,8 +10,8 @@
     "tunnel": "expo start --tunnel",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress:open": "node scripts/cypress.js",
+    "cypress:run": "node scripts/cypress.js"
   },
   "dependencies": {
     "@expo/metro-runtime": "~57.0.16",
@@ -23,6 +23,7 @@
     "expo-linking": "~57.0.12",
     "expo-router": "~57.0.26",
     "expo-status-bar": "~57.0.1",
+    "expo-system-ui": "~57.0.4",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-native": "0.86.3",
@@ -45,7 +46,7 @@
     "@storybook/react": "^10.6.2",
     "@storybook/react-vite": "^10.6.2",
     "@types/react": "~19.2.18",
-    "cypress": "^16.1.1",
+    "cypress": "^15.19.0",
     "storybook": "^10.6.2",
     "typescript": "~6.0.3",
     "vite": "^8.3.4"
@@ -55,7 +56,6 @@
     "node": ">=20.19.4"
   },
   "allowScripts": {
-    "esbuild@0.28.2": true,
-    "cypress@16.1.1": true
+    "esbuild@0.28.2": true
   }
 }

@@ -9,16 +9,17 @@
     "ios": {
       "supportsTablet": true
     },
+    "icon": "./public/icons/icon-1024.png",
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./public/icons/icon-1024.png",
         "backgroundColor": "#ffffff"
       }
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/favicon.png"
+      "favicon": "./public/icons/icon-48.png"
     },
     "plugins": ["expo-router"],
     "experiments": {

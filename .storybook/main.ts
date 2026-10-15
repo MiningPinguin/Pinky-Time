@@ -40,6 +40,37 @@ const reactNativeEsbuildPlugin = {
   },
 };
 
+const expoNativeOnlyCompatPlugin = {
+  name: 'expo-native-only-compat',
+  enforce: 'pre' as const,
+  resolveId(source: string, importer: string | undefined) {
+    // react-native-web exposes no TurboModuleRegistry; the native module lookup
+    // it feeds is unreachable in a browser, so point it at an inert stub. The
+    // specifier has already been rewritten to `react-native-web` by the alias above.
+    if (
+      (source === 'react-native' || source === 'react-native-web') &&
+      importer?.endsWith('requireNativeModule.ts')
+    ) {
+      return '\0turbo-module-registry-stub';
+    }
+    return null;
+  },
+  load(id: string) {
+    if (id === '\0turbo-module-registry-stub') {
+      return [
+        'const unavailable = () => { throw new Error("TurboModuleRegistry is unavailable on web"); };',
+        'export const TurboModuleRegistry = { get: () => null, getEnforcing: unavailable };',
+      ].join('\n');
+    }
+    // `src/ts-declarations/*` are pure `declare` files with no runtime code, but
+    // they import their siblings in value position, which Rolldown cannot resolve.
+    if (/expo-modules-core[\\/]src[\\/]ts-declarations[\\/]/.test(id)) {
+      return 'export default {};';
+    }
+    return null;
+  },
+};
+
 const config: StorybookConfig = {
   stories: ['../src/components/primitives/**/*.stories.tsx'],
   addons: [],
@@ -54,7 +85,7 @@ const config: StorybookConfig = {
           'react-native': 'react-native-web',
         },
       },
-      plugins: [reactNativeVitePlugin],
+      plugins: [expoNativeOnlyCompatPlugin, reactNativeVitePlugin],
       esbuild: {
         jsx: 'automatic',
         jsxImportSource: 'react',

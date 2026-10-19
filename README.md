@@ -1,6 +1,6 @@
-# Boilerplate
+# Mobile Applications
 
-## project-name
+## PinkyTime
 
 ### Idea
 #### Problem
@@ -13,10 +13,10 @@
 * Every time you open a selected app, a pop-up asks: "How long do you want to spend here?"
 * You pick a duration, for example 5 minutes today and 20 minutes tomorrow
 * It changes every time, because you decide fresh in the moment
-* When the time is up, project-name tells you it's time to stop
-* project-name only holds you to the promise you just made
+* When the time is up, PinkyTime tells you it's time to stop
+* PinkyTime only holds you to the promise you just made
 * You choose what happens at the end (a setting)
-    * Reask: project-name asks "How long now?", so you have to make a new decision
+    * Reask: PinkyTime asks "How long now?", so you have to make a new decision
     * Hard block: the app is off-limits for a cooldown period
 * You choose how the cooldown is calculated (a setting)
     * Fixed: always the same time, e.g. 30 minutes
@@ -25,7 +25,7 @@
 * Optional extras
     * Scroll-wheel timer and preset buttons, each toggleable
     * Playful companion that reacts to whether you kept your promise (a plant that wilts, a buddy that needs rest)
-#### Design principles (what project-name deliberately does not do)
+#### Design principles (what PinkyTime deliberately does not do)
 * No breathing exercise or waiting pause before opening an app
 * No daily time budget
 * No limit on the number of openings per day
@@ -37,8 +37,8 @@
 #### Competitors
 * one sec: tried it myself; makes you breathe before opening the app, but you do not choose a duration each time
 * ScreenZen: tried it myself; time limits are configured in advance, not asked each time you open the app
-* Difference: project-name asks "how long?" every time and lets you decide the consequence (reask or hard block)
-### PWA (assignment 1, due 4 November)
+* Difference: PinkyTime asks "how long?" every time and lets you decide the consequence (reask or hard block)
+### PWA (assignment 1, due 10 November)
 #### Goal
 * Prove the core flow in a browser, installable on a phone
 #### Scope
@@ -49,14 +49,14 @@
 * Installable (web app manifest and icons)
 #### How it is triggered
 * A PWA cannot see which app is open
-* The user sets up an automation on their phone that opens a project-name link when a chosen app launches
+* The user sets up an automation on their phone that opens a PinkyTime link when a chosen app launches
     * iOS: Shortcuts personal automation
     * Android: Samsung Routines, MacroDroid or Tasker
 * The link opens the prompt screen for that app
 #### Limitations (known and documented)
 * "Time spent" is the promised time, because the real time in the app cannot be measured
 * A hard block is a soft lockout: the cooldown screen is shown, but the real app can still be opened
-* Notifications only work while project-name is open
+* Notifications only work while PinkyTime is open
 * Data is stored locally on the device
 #### Planned after the first version
 * Reask and hard-block settings with the cooldown types

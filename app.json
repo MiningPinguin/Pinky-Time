@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "UCLL Mobile Starter",
-    "slug": "ucll-mobile-starter",
+    "name": "PinkyTime",
+    "slug": "pinky-time",
     "version": "1.0.0",
     "orientation": "portrait",
-    "scheme": "ucllstarter",
+    "scheme": "pinky-time",
     "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": true
@@ -12,14 +12,15 @@
     "icon": "./public/icons/icon-1024.png",
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./public/icons/icon-1024.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./public/icons/ic_launcher_foreground.png",
+        "monochromeImage": "./public/icons/ic_launcher_monochrome.png",
+        "backgroundColor": "#2A1B3D"
       }
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./public/icons/icon-48.png"
+      "favicon": "./public/icons/favicon.ico"
     },
     "plugins": ["expo-router"],
     "experiments": {

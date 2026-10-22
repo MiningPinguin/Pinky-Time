@@ -1,6 +1,6 @@
 import { Platform } from 'react-native';
 
-import { getInstalledApps as getNativeInstalledApps } from 'installed-apps';
+import { getInstalledApps as getNativeInstalledApps, getAppIcon as getNativeAppIcon } from 'installed-apps';
 
 import type { InstalledApp } from '../types/InstalledApp';
 
@@ -36,7 +36,6 @@ export async function getInstalledApps(): Promise<InstalledApp[]> {
     const mapped: InstalledApp[] = nativeApps.map((app) => ({
       packageName: app.packageName,
       label: app.label,
-      icon: app.icon,
       isSocial: SOCIAL_PACKAGES.includes(app.packageName),
     }));
 
@@ -54,5 +53,20 @@ export async function getInstalledApps(): Promise<InstalledApp[]> {
     return [...socials, ...others];
   } catch {
     return [];
+  }
+}
+/**
+ * Loads the icon (base64 data URI) for a single installed app. Resolves to an
+ * empty string if the icon cannot be rendered or on non-Android platforms.
+ */
+export async function getAppIcon(packageName: string): Promise<string> {
+  if (Platform.OS !== 'android') {
+    return '';
+  }
+
+  try {
+    return await getNativeAppIcon(packageName);
+  } catch {
+    return '';
   }
 }

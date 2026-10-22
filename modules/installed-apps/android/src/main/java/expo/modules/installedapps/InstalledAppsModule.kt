@@ -31,22 +31,28 @@ class InstalledAppsModule : Module() {
         if (!seenPackages.add(packageName)) continue
 
         val label = packageManager.getApplicationLabel(appInfo).toString()
-        val icon = try {
-          drawableToBase64(packageManager.getApplicationIcon(appInfo))
-        } catch (error: Exception) {
-          ""
-        }
 
         apps.add(
           mapOf(
             "packageName" to packageName,
             "label" to label,
-            "icon" to icon,
           ),
         )
       }
 
       apps
+    }
+
+    AsyncFunction("getAppIcon") { packageName: String ->
+      val context = appContext.reactContext
+        ?: throw IllegalStateException("React context is not available")
+      val packageManager = context.packageManager
+      try {
+        val appInfo = packageManager.getApplicationInfo(packageName, 0)
+        drawableToBase64(packageManager.getApplicationIcon(appInfo))
+      } catch (error: Exception) {
+        ""
+      }
     }
   }
 

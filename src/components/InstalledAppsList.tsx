@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { FlatList, Image, View } from 'react-native';
+import { FlatList, View } from 'react-native';
 
 import { Badge } from './primitives/Badge';
 import { Card } from './primitives/Card';
@@ -8,6 +8,7 @@ import { Row } from './primitives/Row';
 import { Spinner } from './primitives/Spinner';
 import { Text } from './primitives/Text';
 
+import { AppIcon } from './AppIcon';
 import { getInstalledApps } from '../services/installedAppsService';
 import type { InstalledApp } from '../types/InstalledApp';
 
@@ -63,11 +64,7 @@ export function InstalledAppsList({ onSelect }: InstalledAppsListProps) {
       renderItem={({ item }) => (
         <Card onPress={onSelect !== undefined ? () => onSelect(item) : undefined}>
           <Row gap="md" align="center">
-            {item.icon !== '' ? (
-              <Image source={{ uri: item.icon }} className="w-10 h-10 rounded-lg mr-3" />
-            ) : (
-              <View className="w-10 h-10 rounded-lg bg-gray-200 mr-3" />
-            )}
+            <AppIcon packageName={item.packageName} />
             <View className="flex-1">
               <Text weight="medium">{item.label}</Text>
             </View>

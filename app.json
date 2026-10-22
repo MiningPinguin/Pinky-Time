@@ -15,14 +15,18 @@
         "foregroundImage": "./public/icons/ic_launcher_foreground.png",
         "monochromeImage": "./public/icons/ic_launcher_monochrome.png",
         "backgroundColor": "#2A1B3D"
-      }
+      },
+      "package": "com.anonymous.pinkytime"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
       "favicon": "./public/icons/favicon.ico"
     },
-    "plugins": ["expo-router"],
+    "plugins": [
+      "expo-router",
+      "./plugins/withLauncherAppsQuery"
+    ],
     "experiments": {
       "typedRoutes": true
     }

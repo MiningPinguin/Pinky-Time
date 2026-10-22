@@ -4,24 +4,16 @@ import { Stack } from '../../src/components/primitives/Stack';
 import { Text } from '../../src/components/primitives/Text';
 import { EmptyState } from '../../src/components/primitives/EmptyState';
 import { StyledButton } from '../../src/components/StyledButton';
-import {Badge} from "@/components/primitives";
+import { Badge } from '@/components/primitives';
+import { InstalledAppsList } from '../../src/components/InstalledAppsList';
 
 export default function HomeScreen() {
   const { user, logout } = useAuthStore();
 
   return (
-    <Screen padding="lg">
-      <Stack gap="lg">
-        <Text size="xl" weight="bold">
-          {user !== null ? `Welcome, ${user.name}` : 'Welcome'}
-        </Text>
-        <Text>Your items will appear here once you connect Supabase.</Text>
-        <Badge label={'Succes badge'} variant={"success"} />
-        <EmptyState
-          title="No items yet"
-          description="Implement getItems() in your itemService to load data."
-        />
-        <StyledButton label="Log out" onPress={logout} variant="secondary" />
+    <Screen padding="lg" scrollable={false}>
+      <Stack gap="lg" flex={1}>
+        <InstalledAppsList />
       </Stack>
     </Screen>
   );

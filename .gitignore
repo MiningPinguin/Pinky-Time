@@ -12,6 +12,11 @@ storybook-static/
 /android
 /ios
 
+# Local Expo module build artifacts
+/modules/*/android/build
+/modules/*/android/.gradle
+/modules/*/ios/build
+
 # Machine-specific Android config
 android/local.properties
 

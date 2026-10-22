@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet } from 'react-native';
+import { Pressable } from 'react-native';
 import { Spinner } from './primitives/Spinner';
 import { Text } from './primitives/Text';
 
@@ -21,17 +21,12 @@ export function StyledButton({
     <Pressable
       onPress={onPress}
       disabled={isLoading}
-      style={[styles.base, styles[variant], isLoading && styles.disabled]}
+      className={`items-center justify-center rounded-md px-4 py-2 ${
+        variant === 'primary' ? 'bg-blue-600' : 'bg-gray-200'
+      } ${isLoading ? 'opacity-50' : ''}`}
       testID={testID}
     >
       {isLoading ? <Spinner size="small" /> : <Text weight="medium">{label}</Text>}
     </Pressable>
   );
 }
-
-const styles = StyleSheet.create({
-  base: { alignItems: 'center', justifyContent: 'center' },
-  primary: {},
-  secondary: {},
-  disabled: {},
-});

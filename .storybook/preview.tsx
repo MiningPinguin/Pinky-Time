@@ -5,7 +5,7 @@ import { View } from 'react-native';
 const preview: Preview = {
   decorators: [
     (Story) => (
-      <View style={{ padding: 16 }}>
+      <View className="p-4">
         <Story />
       </View>
     ),

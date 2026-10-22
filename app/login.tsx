@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import { router } from 'expo-router';
 import { useAuthStore } from '../src/state/useAuthStore';
 import { InputField } from '../src/components/primitives/InputField';
@@ -24,7 +24,7 @@ export default function LoginScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <View className="flex-1">
       <Stack gap="lg" padding="lg">
         <Text size="xl" weight="bold" align="center">Welcome back</Text>
         <InputField
@@ -52,7 +52,3 @@ export default function LoginScreen() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1 },
-});

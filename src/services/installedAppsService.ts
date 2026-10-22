@@ -1,8 +1,26 @@
 import { Platform } from 'react-native';
 
-import { getInstalledApps as getNativeInstalledApps, getAppIcon as getNativeAppIcon } from 'installed-apps';
-
 import type { InstalledApp } from '../types/InstalledApp';
+
+// The `installed-apps` module is native-only. Importing it on web (or in
+// Storybook) executes `requireNativeModule`, which throws. Load it lazily and
+// guard with try/catch so non-native platforms degrade gracefully.
+type NativeInstalledApp = { packageName: string; label: string };
+
+let nativeGetInstalledApps: (() => Promise<NativeInstalledApp[]>) | null = null;
+let nativeGetAppIcon: ((packageName: string) => Promise<string>) | null = null;
+
+if (Platform.OS === 'android') {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const mod = require('installed-apps');
+    nativeGetInstalledApps = mod.getInstalledApps;
+    nativeGetAppIcon = mod.getAppIcon;
+  } catch {
+    nativeGetInstalledApps = null;
+    nativeGetAppIcon = null;
+  }
+}
 
 /**
  * Android package names of the social apps PinkyTime tracks, in the order they
@@ -32,7 +50,10 @@ export async function getInstalledApps(): Promise<InstalledApp[]> {
   }
 
   try {
-    const nativeApps = await getNativeInstalledApps();
+    if (nativeGetInstalledApps === null) {
+      return [];
+    }
+    const nativeApps = await nativeGetInstalledApps();
     const mapped: InstalledApp[] = nativeApps.map((app) => ({
       packageName: app.packageName,
       label: app.label,
@@ -65,7 +86,10 @@ export async function getAppIcon(packageName: string): Promise<string> {
   }
 
   try {
-    return await getNativeAppIcon(packageName);
+    if (nativeGetAppIcon === null) {
+      return '';
+    }
+    return await nativeGetAppIcon(packageName);
   } catch {
     return '';
   }

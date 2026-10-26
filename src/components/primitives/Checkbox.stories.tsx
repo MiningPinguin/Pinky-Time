@@ -11,3 +11,18 @@ export const Unchecked: Story = {
 export const Checked: Story = {
   args: { label: 'Accept terms', checked: true, onChange: () => {} },
 };
+export const SmallLabel: Story = {
+  args: { label: 'Accept terms', checked: true, onChange: () => {}, labelTextProps: { size: 'sm' } },
+};
+export const LargeLabel: Story = {
+  args: { label: 'Accept terms', checked: false, onChange: () => {}, labelTextProps: { size: 'lg', weight: 'medium' } },
+};
+export const BoldLabelAndMark: Story = {
+  args: {
+    label: 'Accept terms',
+    checked: true,
+    onChange: () => {},
+    labelTextProps: { weight: 'bold' },
+    checkTextProps: { weight: 'bold' },
+  },
+};

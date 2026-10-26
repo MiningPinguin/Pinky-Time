@@ -10,3 +10,9 @@ export const Success: Story = { args: { message: 'Saved!', variant: 'success', v
 export const ErrorVariant: Story = {
   args: { message: 'Something went wrong', variant: 'error', visible: true },
 };
+export const LeftAligned: Story = {
+  args: { message: 'Operation complete', visible: true, messageTextProps: { align: 'left' } },
+};
+export const BoldMessage: Story = {
+  args: { message: 'Saved!', variant: 'success', visible: true, messageTextProps: { weight: 'bold' } },
+};

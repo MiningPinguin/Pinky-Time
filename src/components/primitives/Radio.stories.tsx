@@ -11,3 +11,12 @@ export const Unselected: Story = {
 export const Selected: Story = {
   args: { label: 'Option A', value: 'a', selected: true, onSelect: () => {} },
 };
+export const SmallLabel: Story = {
+  args: { label: 'Option A', value: 'a', selected: true, onSelect: () => {}, labelTextProps: { size: 'sm' } },
+};
+export const LargeLabel: Story = {
+  args: { label: 'Option A', value: 'a', selected: true, onSelect: () => {}, labelTextProps: { size: 'lg', weight: 'medium' } },
+};
+export const ColoredLabel: Story = {
+  args: { label: 'Option A', value: 'a', selected: false, onSelect: () => {}, labelTextProps: { color: 'text-blue-600' } },
+};

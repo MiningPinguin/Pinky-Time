@@ -1,47 +1,38 @@
-import { Text as RNText, StyleSheet } from 'react-native';
+import { Text as RNText } from 'react-native';
+import { cva, type VariantProps } from 'class-variance-authority';
 
-interface TextProps {
+const text = cva('text-gray-900', {
+  variants: {
+    size: {
+      sm: 'text-xs',    // 12 / 16
+      md: 'text-sm',    // 14 / 20
+      lg: 'text-base',  // 16 / 24
+      xl: 'text-xl',    // 20 / 28
+    },
+    weight: {
+      normal: 'font-normal',
+      medium: 'font-medium',
+      bold: 'font-bold',
+    },
+    align: {
+      left: 'text-left',
+      center: 'text-center',
+      right: 'text-right',
+    },
+  },
+  defaultVariants: { size: 'md', weight: 'normal', align: 'left' },
+});
+
+interface TextProps extends VariantProps<typeof text> {
   children: React.ReactNode;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
-  weight?: 'normal' | 'medium' | 'bold';
-  color?: string;
-  align?: 'left' | 'center' | 'right';
+  className?: string;
   numberOfLines?: number;
 }
 
-export function Text({
-  children,
-  size = 'md',
-  weight = 'normal',
-  color,
-  align = 'left',
-  numberOfLines,
-}: TextProps) {
+export function Text({ children, size, weight, align, className, numberOfLines }: TextProps) {
   return (
-    <RNText
-      style={[
-        styles.base,
-        styles[size],
-        styles[weight],
-        { textAlign: align },
-        color !== undefined && { color },
-      ]}
-      numberOfLines={numberOfLines}
-    >
+    <RNText className={text({ size, weight, align, className })} numberOfLines={numberOfLines}>
       {children}
     </RNText>
   );
 }
-
-const styles = StyleSheet.create({
-  base: {
-    color: '#111827',
-  },
-  sm: { fontSize: 12, lineHeight: 16 },
-  md: { fontSize: 14, lineHeight: 20 },
-  lg: { fontSize: 16, lineHeight: 24 },
-  xl: { fontSize: 20, lineHeight: 28 },
-  normal: { fontWeight: '400' },
-  medium: { fontWeight: '500' },
-  bold: { fontWeight: '700' },
-});

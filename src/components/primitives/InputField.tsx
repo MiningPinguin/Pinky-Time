@@ -1,5 +1,15 @@
-import { TextInput, View, StyleSheet } from 'react-native';
-import { Text } from './Text';
+import { TextInput, View } from 'react-native';
+import { cva } from 'class-variance-authority';
+import { Text, type TextProps } from './Text';
+
+const input = cva('border rounded-md px-3 py-1.5', {
+  variants: {
+    invalid: {
+      true: 'border-red-500',
+      false: 'border-gray-400',
+    },
+  },
+});
 
 interface InputFieldProps {
   label: string;
@@ -9,6 +19,9 @@ interface InputFieldProps {
   secureTextEntry?: boolean;
   error?: string;
   testID?: string;
+  className?: string;
+  labelTextProps?: Partial<TextProps>;  // Nested Text settings, defaults: size="sm", weight="medium"
+  errorTextProps?: Partial<TextProps>;  // Nested Text settings, defaults: size="sm", color="text-red-500"
 }
 
 export function InputField({
@@ -19,26 +32,23 @@ export function InputField({
   secureTextEntry = false,
   error,
   testID,
+  className,
+  labelTextProps,
+  errorTextProps,
 }: InputFieldProps) {
   return (
-    <View style={styles.container}>
-      <Text size="sm" weight="medium">{label}</Text>
+    <View className="gap-1.5">
+      <Text size="sm" weight="medium" {...labelTextProps}>{label}</Text>
       <TextInput
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}
         secureTextEntry={secureTextEntry}
-        style={[styles.input, error !== undefined && styles.inputError]}
+        className={input({ invalid: error !== undefined, className })}
         testID={testID}
         autoCapitalize="none"
       />
-      {error !== undefined && <Text size="sm" color="red">{error}</Text>}
+      {error !== undefined && <Text size="sm" color="text-red-500" {...errorTextProps}>{error}</Text>}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {},
-  input: {},
-  inputError: {},
-});

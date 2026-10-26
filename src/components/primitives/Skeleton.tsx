@@ -1,13 +1,14 @@
 import { useEffect, useRef } from 'react';
-import { Animated, StyleSheet } from 'react-native';
+import { Animated } from 'react-native';
 
 interface SkeletonProps {
   width?: number | `${number}%`;
   height?: number;
   borderRadius?: number;
+  className?: string;
 }
 
-export function Skeleton({ width = '100%', height = 16, borderRadius = 4 }: SkeletonProps) {
+export function Skeleton({ width = '100%', height = 16, borderRadius = 4, className }: SkeletonProps) {
   const opacity = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
@@ -21,9 +22,10 @@ export function Skeleton({ width = '100%', height = 16, borderRadius = 4 }: Skel
     return () => animation.stop();
   }, [opacity]);
 
-  return <Animated.View style={[styles.base, { width, height, borderRadius, opacity }]} />;
+  return (
+    <Animated.View
+      className={className ? `bg-gray-200 ${className}` : 'bg-gray-200'}
+      style={[{ width, height, borderRadius, opacity }]}
+    />
+  );
 }
-
-const styles = StyleSheet.create({
-  base: {},
-});

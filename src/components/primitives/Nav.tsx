@@ -1,13 +1,12 @@
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 
 interface NavProps {
   children: React.ReactNode;
+  className?: string;
 }
 
-export function Nav({ children }: NavProps) {
-  return <View style={styles.base}>{children}</View>;
-}
+export function Nav({ children, className }: NavProps) {
+  const fullClassName = className ? `flex-row ${className}` : 'flex-row';
 
-const styles = StyleSheet.create({
-  base: { flexDirection: 'row' },
-});
+  return <View className={fullClassName}>{children}</View>;
+}

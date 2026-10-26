@@ -1,22 +1,23 @@
-import { View, Pressable, StyleSheet } from 'react-native';
+import { View, Pressable } from 'react-native';
+
+const base = 'bg-white rounded-xl shadow-sm';
 
 interface CardProps {
   children: React.ReactNode;
   onPress?: () => void;
+  className?: string;
 }
 
-export function Card({ children, onPress }: CardProps) {
+export function Card({ children, onPress, className }: CardProps) {
+  const fullClassName = className ? `${base} ${className}` : base;
+
   if (onPress !== undefined) {
     return (
-      <Pressable onPress={onPress} style={styles.base}>
+      <Pressable onPress={onPress} className={fullClassName}>
         {children}
       </Pressable>
     );
   }
 
-  return <View style={styles.base}>{children}</View>;
+  return <View className={fullClassName}>{children}</View>;
 }
-
-const styles = StyleSheet.create({
-  base: {},
-});

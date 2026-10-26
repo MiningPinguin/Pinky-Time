@@ -1,23 +1,25 @@
-import { View, StyleSheet } from 'react-native';
-import { Text } from './Text';
+import { View } from 'react-native';
+import { Text, type TextProps } from './Text';
+
+const base = 'items-center justify-center gap-1.5';
 
 interface EmptyStateProps {
   title: string;
   description?: string;
   action?: React.ReactNode;
+  className?: string;
+  titleTextProps?: Partial<TextProps>;        // Nested Text settings, defaults: size="lg", weight="bold", align="center"
+  descriptionTextProps?: Partial<TextProps>;  // Nested Text settings, defaults: align="center"
 }
 
-export function EmptyState({ title, description, action }: EmptyStateProps) {
+export function EmptyState({ title, description, action, className, titleTextProps, descriptionTextProps }: EmptyStateProps) {
+  const fullClassName = className ? `${base} ${className}` : base;
+
   return (
-    <View style={styles.base}>
-      <Text size="lg" weight="bold" align="center">{title}</Text>
-      {description !== undefined && <Text align="center">{description}</Text>}
-      {action !== undefined && <View style={styles.action}>{action}</View>}
+    <View className={fullClassName}>
+      <Text size="lg" weight="bold" align="center" {...titleTextProps}>{title}</Text>
+      {description !== undefined && <Text align="center" {...descriptionTextProps}>{description}</Text>}
+      {action !== undefined && <View>{action}</View>}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  base: { alignItems: 'center', justifyContent: 'center' },
-  action: {},
-});

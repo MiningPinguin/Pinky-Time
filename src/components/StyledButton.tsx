@@ -21,7 +21,7 @@ export function StyledButton({
     <Pressable
       onPress={onPress}
       disabled={isLoading}
-      className={`items-center justify-center rounded-md px-4 py-2 ${
+      className={`items-center justify-center rounded-md px-3 py-1.5 ${
         variant === 'primary' ? 'bg-blue-600' : 'bg-gray-200'
       } ${isLoading ? 'opacity-50' : ''}`}
       testID={testID}

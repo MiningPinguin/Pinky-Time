@@ -1,45 +1,49 @@
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
+import { cva, type VariantProps } from 'class-variance-authority';
 
-interface StackProps {
+const stack = cva('flex-col', {
+  variants: {
+    gap: {
+      none: '',
+      sm: 'gap-1.5',
+      md: 'gap-3',
+      lg: 'gap-6',
+    },
+    align: {
+      'flex-start': 'items-start',
+      center: 'items-center',
+      'flex-end': 'items-end',
+      stretch: 'items-stretch',
+    },
+    justify: {
+      'flex-start': 'justify-start',
+      center: 'justify-center',
+      'flex-end': 'justify-end',
+      'space-between': 'justify-between',
+    },
+    padding: {
+      none: '',
+      sm: 'p-1.5',
+      md: 'p-3',
+      lg: 'p-6',
+    },
+  },
+  defaultVariants: { gap: 'none', align: 'stretch', justify: 'flex-start', padding: 'none' },
+});
+
+interface StackProps extends VariantProps<typeof stack> {
   children: React.ReactNode;
-  gap?: 'none' | 'sm' | 'md' | 'lg';
-  align?: 'flex-start' | 'center' | 'flex-end' | 'stretch';
-  justify?: 'flex-start' | 'center' | 'flex-end' | 'space-between';
-  padding?: 'none' | 'sm' | 'md' | 'lg';
   flex?: number;
+  className?: string;
 }
 
-export function Stack({
-  children,
-  gap = 'none',
-  align = 'stretch',
-  justify = 'flex-start',
-  padding = 'none',
-  flex,
-}: StackProps) {
+export function Stack({ children, gap, align, justify, padding, flex, className }: StackProps) {
   return (
     <View
-      style={[
-        styles.base,
-        styles[`gap_${gap}` as keyof typeof styles],
-        styles[`padding_${padding}` as keyof typeof styles],
-        { alignItems: align, justifyContent: justify },
-        flex !== undefined && { flex },
-      ]}
+      className={stack({ gap, align, justify, padding, className })}
+      style={flex !== undefined ? { flex } : undefined}
     >
       {children}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  base: { flexDirection: 'column' },
-  gap_none: {},
-  gap_sm: {},
-  gap_md: {},
-  gap_lg: {},
-  padding_none: {},
-  padding_sm: {},
-  padding_md: {},
-  padding_lg: {},
-});

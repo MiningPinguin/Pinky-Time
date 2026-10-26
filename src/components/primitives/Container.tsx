@@ -1,23 +1,31 @@
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
+import { cva, type VariantProps } from 'class-variance-authority';
 
-interface ContainerProps {
+const container = cva('', {
+  variants: {
+    padding: {
+      none: '',
+      sm: 'p-1.5',
+      md: 'p-3',
+      lg: 'p-6',
+    },
+  },
+  defaultVariants: { padding: 'none' },
+});
+
+interface ContainerProps extends VariantProps<typeof container> {
   children: React.ReactNode;
   flex?: number;
-  padding?: 'none' | 'sm' | 'md' | 'lg';
+  className?: string;
 }
 
-export function Container({ children, flex, padding = 'none' }: ContainerProps) {
+export function Container({ children, padding, flex, className }: ContainerProps) {
   return (
-    <View style={[styles.base, flex !== undefined && { flex }, styles[padding]]}>
+    <View
+      className={container({ padding, className })}
+      style={flex !== undefined ? { flex } : undefined}
+    >
       {children}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  base: {},
-  none: {},
-  sm: {},
-  md: {},
-  lg: {},
-});

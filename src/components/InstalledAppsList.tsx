@@ -72,7 +72,7 @@ export function InstalledAppsList({ onSelect }: InstalledAppsListProps) {
   return (
     <FlatList
       className="flex-1"
-      contentContainerClassName="p-4 gap-3"
+      contentContainerClassName="p-3 gap-3"
       data={apps}
       keyExtractor={(item) => item.packageName}
       renderItem={({ item }) => (

@@ -1,39 +1,39 @@
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
+import { cva, type VariantProps } from 'class-variance-authority';
 
-interface RowProps {
-  children: React.ReactNode;
-  gap?: 'none' | 'sm' | 'md' | 'lg';
-  align?: 'flex-start' | 'center' | 'flex-end' | 'stretch';
-  justify?: 'flex-start' | 'center' | 'flex-end' | 'space-between';
-  wrap?: boolean;
-}
-
-export function Row({
-  children,
-  gap = 'none',
-  align = 'center',
-  justify = 'flex-start',
-  wrap = false,
-}: RowProps) {
-  return (
-    <View
-      style={[
-        styles.base,
-        styles[`gap_${gap}` as keyof typeof styles],
-        { alignItems: align, justifyContent: justify },
-        wrap && styles.wrap,
-      ]}
-    >
-      {children}
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  base: { flexDirection: 'row' },
-  wrap: { flexWrap: 'wrap' },
-  gap_none: {},
-  gap_sm: {},
-  gap_md: {},
-  gap_lg: {},
+const row = cva('flex-row', {
+  variants: {
+    gap: {
+      none: '',
+      sm: 'gap-1.5',
+      md: 'gap-3',
+      lg: 'gap-6',
+    },
+    align: {
+      'flex-start': 'items-start',
+      center: 'items-center',
+      'flex-end': 'items-end',
+      stretch: 'items-stretch',
+    },
+    justify: {
+      'flex-start': 'justify-start',
+      center: 'justify-center',
+      'flex-end': 'justify-end',
+      'space-between': 'justify-between',
+    },
+  },
+  defaultVariants: { gap: 'none', align: 'center', justify: 'flex-start' },
 });
+
+interface RowProps extends VariantProps<typeof row> {
+  children: React.ReactNode;
+  wrap?: boolean;
+  className?: string;
+}
+
+export function Row({ children, gap, align, justify, wrap = false, className }: RowProps) {
+  const baseClasses = row({ gap, align, justify, className });
+  const fullClassName = wrap ? `${baseClasses} flex-wrap` : baseClasses;
+
+  return <View className={fullClassName}>{children}</View>;
+}

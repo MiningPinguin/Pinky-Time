@@ -1,22 +1,31 @@
-import { Pressable, StyleSheet } from 'react-native';
-import { Text } from './Text';
+import { Pressable } from 'react-native';
+import { cva } from 'class-variance-authority';
+import { Text, type TextProps } from './Text';
+
+const navItem = cva('flex-row items-center rounded-md px-3 py-1.5', {
+  variants: {
+    active: {
+      true: 'bg-blue-100',
+      false: '',
+    },
+  },
+});
 
 interface NavItemProps {
   label: string;
   onPress: () => void;
   active?: boolean;
   icon?: string;
+  className?: string;
+  labelTextProps?: Partial<TextProps>;  // Nested Text settings, defaults: size="md", weight follows the active state
 }
 
-export function NavItem({ label, onPress, active = false }: NavItemProps) {
+export function NavItem({ label, onPress, active = false, className, labelTextProps }: NavItemProps) {
+  const weight = labelTextProps?.weight ?? (active ? 'bold' : 'normal');
+
   return (
-    <Pressable onPress={onPress} style={[styles.base, active && styles.active]}>
-      <Text size="md" weight={active ? 'bold' : 'normal'}>{label}</Text>
+    <Pressable onPress={onPress} className={navItem({ active, className })}>
+      <Text size="md" {...labelTextProps} weight={weight}>{label}</Text>
     </Pressable>
   );
 }
-
-const styles = StyleSheet.create({
-  base: {},
-  active: {},
-});

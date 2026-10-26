@@ -23,15 +23,20 @@ const text = cva('text-gray-900', {
   defaultVariants: { size: 'md', weight: 'normal', align: 'left' },
 });
 
-interface TextProps extends VariantProps<typeof text> {
+export interface TextProps extends VariantProps<typeof text> {
   children: React.ReactNode;
+  color?: string;            // Tailwind text color class, e.g. "text-pink-500", "text-red-500"
   className?: string;
   numberOfLines?: number;
 }
 
-export function Text({ children, size, weight, align, className, numberOfLines }: TextProps) {
+export function Text({ children, size, weight, align, color, className, numberOfLines }: TextProps) {
+  const baseClasses = text({ size, weight, align, className });
+  const colorClass = color ? ` ${color}` : '';
+  const fullClassName = `${baseClasses}${colorClass}`.trim();
+
   return (
-    <RNText className={text({ size, weight, align, className })} numberOfLines={numberOfLines}>
+    <RNText className={fullClassName} numberOfLines={numberOfLines}>
       {children}
     </RNText>
   );

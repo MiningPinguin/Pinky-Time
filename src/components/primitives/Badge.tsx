@@ -1,36 +1,29 @@
-import { View, StyleSheet } from 'react-native';
-import { Text } from './Text';
+import { View } from 'react-native';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { Text, type TextProps } from './Text';
 
-interface BadgeProps {
+const badge = cva('self-start px-3 py-1.5 rounded-full', {
+  variants: {
+    variant: {
+      default: 'bg-gray-200',
+      success: 'bg-emerald-100',
+      warning: 'bg-amber-100',
+      error: 'bg-red-100',
+    },
+  },
+  defaultVariants: { variant: 'default' },
+});
+
+interface BadgeProps extends VariantProps<typeof badge> {
   label: string;
-  variant?: 'default' | 'success' | 'warning' | 'error';
+  className?: string;
+  labelTextProps?: Partial<TextProps>;  // Nested Text settings, defaults: size="sm"
 }
 
-export function Badge({ label, variant = 'default' }: BadgeProps) {
+export function Badge({ label, variant, className, labelTextProps }: BadgeProps) {
   return (
-    <View style={[styles.base, styles[variant]]}>
-      <Text size="sm">{label}</Text>
+    <View className={badge({ variant, className })}>
+      <Text size="sm" {...labelTextProps}>{label}</Text>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  base: {
-    alignSelf: 'flex-start',
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 999,
-  },
-  default: {
-    backgroundColor: '#e5e7eb',
-  },
-  success: {
-    backgroundColor: '#d1fae5',
-  },
-  warning: {
-    backgroundColor: '#fef3c7',
-  },
-  error: {
-    backgroundColor: '#fee2e2',
-  },
-});

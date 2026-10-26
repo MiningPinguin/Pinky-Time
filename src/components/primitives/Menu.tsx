@@ -1,5 +1,5 @@
-import { View, Pressable, StyleSheet } from 'react-native';
-import { Text } from './Text';
+import { View, Pressable } from 'react-native';
+import { Text, type TextProps } from './Text';
 
 interface MenuItem {
   label: string;
@@ -10,15 +10,21 @@ interface MenuProps {
   items: MenuItem[];
   visible: boolean;
   onClose: () => void;
+  className?: string;
+  itemTextProps?: Partial<TextProps>;  // Nested Text settings, defaults: size="md"
 }
 
-export function Menu({ items, visible, onClose }: MenuProps) {
+const base = 'absolute bg-white rounded-xl shadow-lg p-1.5';
+
+export function Menu({ items, visible, onClose, className, itemTextProps }: MenuProps) {
   if (!visible) return null;
+
+  const fullClassName = className ? `${base} ${className}` : base;
 
   return (
     <>
-      <Pressable onPress={onClose} style={styles.overlay} />
-      <View style={styles.menu}>
+      <Pressable onPress={onClose} className="absolute inset-0" />
+      <View className={fullClassName}>
         {items.map((item) => (
           <Pressable
             key={item.label}
@@ -26,18 +32,12 @@ export function Menu({ items, visible, onClose }: MenuProps) {
               item.onPress();
               onClose();
             }}
-            style={styles.menuItem}
+            className="flex-row items-center px-3 py-1.5"
           >
-            <Text size="md">{item.label}</Text>
+            <Text size="md" {...itemTextProps}>{item.label}</Text>
           </Pressable>
         ))}
       </View>
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  overlay: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 },
-  menu: { position: 'absolute' },
-  menuItem: {},
-});

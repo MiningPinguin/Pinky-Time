@@ -2,7 +2,6 @@ import { View } from 'react-native';
 
 import { Badge } from './primitives/Badge';
 import { Card } from './primitives/Card';
-import {Stack} from './primitives/Stack';
 import { Row } from './primitives/Row';
 import { Text } from './primitives/Text';
 

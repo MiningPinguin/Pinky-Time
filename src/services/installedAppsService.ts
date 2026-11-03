@@ -1,4 +1,4 @@
-import type { InstalledApp } from '../types/InstalledApp';
+import type { InstalledApp } from '@/types';
 
 /**
  * Stub used on non-Android platforms (web, iOS) where the `installed-apps`

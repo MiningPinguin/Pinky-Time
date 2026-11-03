@@ -1,13 +1,9 @@
 import { View } from 'react-native';
 
-import { Badge } from './primitives/Badge';
-import { Card } from './primitives/Card';
-import { Row } from './primitives/Row';
-import { Text } from './primitives/Text';
-
 import { AppIcon } from './AppIcon';
-import { StyledCheckbox } from './StyledCheckbox';
-import type { InstalledApp } from '../types/InstalledApp';
+import {Badge, Card, Row, Text} from "@/components/primitives";
+import {InstalledApp} from "@/types";
+import {StyledCheckbox} from "@/components/StyledCheckbox";
 
 interface InstalledAppListItemProps {
   app: InstalledApp;

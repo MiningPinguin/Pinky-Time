@@ -1,4 +1,4 @@
-import type { Item } from '../types/Item';
+import type { Item } from '@/types/Item';
 import { Card } from './primitives/Card';
 import { Stack } from './primitives/Stack';
 import { Text } from './primitives/Text';

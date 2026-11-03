@@ -10,8 +10,8 @@ import { Spinner } from './primitives/Spinner';
 import { Text } from './primitives/Text';
 
 import { AppIcon } from './AppIcon';
-import { getInstalledApps } from '../services/installedAppsService';
-import type { InstalledApp } from '../types/InstalledApp';
+import { getInstalledApps } from '@/services/installedAppsService';
+import type { InstalledApp } from '@/types/InstalledApp';
 
 interface InstalledAppsListProps {
   onSelect?: (app: InstalledApp) => void;
@@ -94,4 +94,3 @@ export function InstalledAppsList({ onSelect }: InstalledAppsListProps) {
     />
   );
 }
-

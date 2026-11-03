@@ -1,4 +1,4 @@
-import type { User } from '../types/User';
+import type { User } from '@/types';
 
 export async function login(_email: string, _password: string): Promise<User> {
   throw new Error('Not yet implemented — connect your Supabase auth here');

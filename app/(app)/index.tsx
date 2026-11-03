@@ -1,6 +1,6 @@
-import { Screen } from '../../src/components/primitives/Screen';
-import { Stack } from '../../src/components/primitives/Stack';
-import { InstalledAppsList } from '../../src/components/InstalledAppsList';
+import {Screen} from "@/components/primitives";
+import {Stack} from "@/components/primitives";
+import {InstalledAppsList} from "@/components/appList/InstalledAppsList";
 
 export default function HomeScreen() {
   return (

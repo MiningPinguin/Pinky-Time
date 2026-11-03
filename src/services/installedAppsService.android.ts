@@ -2,7 +2,7 @@ import { Platform } from 'react-native';
 
 import { getInstalledApps as getNativeInstalledApps, getAppIcon as getNativeAppIcon } from 'installed-apps';
 
-import type { InstalledApp } from '../types/InstalledApp';
+import type { InstalledApp } from '@/types';
 
 /**
  * Android package names of the social apps PinkyTime tracks, in the order they

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Image, View } from 'react-native';
+import {getAppIcon} from "@/services";
 
-import { getAppIcon } from '../services/installedAppsService';
 
 const iconCache = new Map<string, string>();
 

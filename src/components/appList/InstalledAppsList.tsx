@@ -1,17 +1,11 @@
 import { useEffect, useState } from 'react';
 import { FlatList, View } from 'react-native';
 
-import { Badge } from './primitives/Badge';
-import { Card } from './primitives/Card';
-import { Checkbox } from './primitives/Checkbox';
-import { EmptyState } from './primitives/EmptyState';
-import { Row } from './primitives/Row';
-import { Spinner } from './primitives/Spinner';
-import { Text } from './primitives/Text';
-
 import { AppIcon } from './AppIcon';
-import { getInstalledApps } from '@/services/installedAppsService';
-import type { InstalledApp } from '@/types/InstalledApp';
+import {InstalledApp} from "@/types";
+import {addSelectedApp, getInstalledApps, getSelectedApps, removeSelectedApp} from "@/services";
+import {Badge, Card, Checkbox, EmptyState, Row, Spinner, Text} from "@/components/primitives";
+
 
 interface InstalledAppsListProps {
   onSelect?: (app: InstalledApp) => void;
@@ -22,24 +16,45 @@ export function InstalledAppsList({ onSelect }: InstalledAppsListProps) {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
 
-  const toggleSelected = (packageName: string) => {
+  const toggleSelected = (app: InstalledApp) => {
+    const isSelected = selected.has(app.packageName);
     setSelected((prev) => {
       const next = new Set(prev);
-      if (next.has(packageName)) {
-        next.delete(packageName);
+      if (isSelected) {
+        next.delete(app.packageName);
       } else {
-        next.add(packageName);
+        next.add(app.packageName);
       }
       return next;
     });
+
+    if (isSelected) {
+      void removeSelectedApp(app.packageName).catch(() => {
+        // Roll back the optimistic update if persistence fails.
+        setSelected((prev) => new Set(prev).add(app.packageName));
+      });
+    } else {
+      void addSelectedApp(app).catch(() => {
+        setSelected((prev) => {
+          const next = new Set(prev);
+          next.delete(app.packageName);
+          return next;
+        });
+      });
+    }
   };
 
   useEffect(() => {
     let isMounted = true;
-    getInstalledApps()
-      .then((result) => {
+    Promise.all([getInstalledApps(), getSelectedApps()])
+      .then(([installed, persisted]) => {
+        if (!isMounted) return;
+        setApps(installed);
+        setSelected(new Set(persisted.map((app) => app.packageName)));
+      })
+      .catch(() => {
         if (isMounted) {
-          setApps(result);
+          setApps([]);
         }
       })
       .finally(() => {
@@ -86,7 +101,7 @@ export function InstalledAppsList({ onSelect }: InstalledAppsListProps) {
             <Checkbox
               label=""
               checked={selected.has(item.packageName)}
-              onChange={() => toggleSelected(item.packageName)}
+              onChange={() => toggleSelected(item)}
             />
           </Row>
         </Card>

@@ -3,7 +3,7 @@ import { FlatList, View } from 'react-native';
 
 import { AppIcon } from './AppIcon';
 import {InstalledApp} from "@/types";
-import {addSelectedApp, getInstalledApps, getSelectedApps, removeSelectedApp} from "@/services";
+import {addSelectedApp, getInstalledApps, getSelectedApps, removeSelectedApp, syncTrackedApps} from "@/services";
 import {Badge, Card, Checkbox, EmptyState, Row, Spinner, Text} from "@/components/primitives";
 
 
@@ -29,18 +29,22 @@ export function InstalledAppsList({ onSelect }: InstalledAppsListProps) {
     });
 
     if (isSelected) {
-      void removeSelectedApp(app.packageName).catch(() => {
-        // Roll back the optimistic update if persistence fails.
-        setSelected((prev) => new Set(prev).add(app.packageName));
-      });
-    } else {
-      void addSelectedApp(app).catch(() => {
-        setSelected((prev) => {
-          const next = new Set(prev);
-          next.delete(app.packageName);
-          return next;
+      void removeSelectedApp(app.packageName)
+        .then(() => syncTrackedApps())
+        .catch(() => {
+          // Roll back the optimistic update if persistence fails.
+          setSelected((prev) => new Set(prev).add(app.packageName));
         });
-      });
+    } else {
+      void addSelectedApp(app)
+        .then(() => syncTrackedApps())
+        .catch(() => {
+          setSelected((prev) => {
+            const next = new Set(prev);
+            next.delete(app.packageName);
+            return next;
+          });
+        });
     }
   };
 

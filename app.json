@@ -11,6 +11,7 @@
     },
     "icon": "./public/icons/icon-1024.png",
     "android": {
+      "permissions": ["SYSTEM_ALERT_WINDOW"],
       "adaptiveIcon": {
         "foregroundImage": "./public/icons/ic_launcher_foreground.png",
         "monochromeImage": "./public/icons/ic_launcher_monochrome.png",

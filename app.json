@@ -21,7 +21,7 @@
     },
     "web": {
       "bundler": "metro",
-      "output": "single",
+      "output": "static",
       "favicon": "./public/icons/icon-192.png"
     },
     "plugins": [
@@ -30,7 +30,8 @@
       "./plugins/withCmake"
     ],
     "experiments": {
-      "typedRoutes": true
+      "typedRoutes": true,
+      "baseUrl": "/Pinky-Time"
     }
   }
 }

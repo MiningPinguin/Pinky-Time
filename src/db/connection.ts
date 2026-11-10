@@ -9,26 +9,34 @@ import { ensureSchema } from './schema';
  */
 const DB_NAME = 'pinky-time.db';
 
-let db: SQLite.SQLiteDatabase | undefined;
+// The open promise, not the handle: concurrent first-time callers must share
+// the same open + migration, otherwise their schema transactions interleave
+// on the shared native connection ("cannot start a transaction within a
+// transaction" / "cannot commit - no transaction is active").
+let dbPromise: Promise<SQLite.SQLiteDatabase> | undefined;
 
 /**
  * Returns the singleton SQLite connection, opening it lazily on first use
  * and applying the schema. Safe to call from any repository.
  */
 export async function getDatabase(): Promise<SQLite.SQLiteDatabase> {
-  if (!db) {
-    db = await SQLite.openDatabaseAsync(DB_NAME);
-    await ensureSchema(db);
+  if (!dbPromise) {
+    dbPromise = (async () => {
+      const connection = await SQLite.openDatabaseAsync(DB_NAME);
+      await ensureSchema(connection);
+      return connection;
+    })();
   }
-  return db;
+  return dbPromise;
 }
 
 /**
  * Closes the singleton connection, if open. Intended for tests/cleanup.
  */
 export async function closeDatabase(): Promise<void> {
-  if (db) {
-    await db.closeAsync();
-    db = undefined;
+  if (dbPromise) {
+    const connection = await dbPromise;
+    await connection.closeAsync();
+    dbPromise = undefined;
   }
 }

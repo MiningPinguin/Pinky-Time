@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Slot } from 'expo-router';
+import '@/components/overlay/OverlayPrompt';
 import Head from 'expo-router/head';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';

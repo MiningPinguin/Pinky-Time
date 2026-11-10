@@ -11,12 +11,24 @@ class PinkyAccessibilityService : AccessibilityService() {
     if (event?.eventType != AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) return
 
     val packageName = event.packageName?.toString() ?: return
-    if (packageName == this.packageName) return
+    if (packageName == this.packageName) {
+      // PinkyTime itself is foregrounding; let its activity resume the React host naturally
+      // instead of keeping our temporary "forced resume" bookkeeping around.
+      OverlayManager.onOwnAppCameToForeground()
+      return
+    }
 
     val tracked = getTrackedPackages(this)
     if (packageName in tracked) {
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Settings.canDrawOverlays(this)) {
-        OverlayManager.show(this)
+        val label = try {
+          packageManager.getApplicationLabel(
+            packageManager.getApplicationInfo(packageName, 0),
+          ).toString()
+        } catch (_: Exception) {
+          packageName
+        }
+        OverlayManager.show(this, label, packageName)
       }
     } else if (OverlayManager.isShowing()) {
       OverlayManager.hide(this)

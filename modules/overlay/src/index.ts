@@ -3,7 +3,7 @@ import { requireNativeModule } from 'expo-modules-core';
 interface OverlayNativeModule {
   hasPermission(): boolean;
   requestPermission(): void;
-  show(): Promise<void>;
+  show(appName?: string, packageName?: string): Promise<void>;
   hide(): Promise<void>;
   setTrackedPackages(packages: string[]): void;
   getTrackedPackages(): string[];
@@ -26,8 +26,11 @@ export function requestOverlayPermission(): void {
   Overlay?.requestPermission();
 }
 
-export async function showOverlay(): Promise<void> {
-  await Overlay?.show();
+export async function showOverlay(
+  appName?: string,
+  packageName?: string,
+): Promise<void> {
+  await Overlay?.show(appName, packageName);
 }
 
 export async function hideOverlay(): Promise<void> {

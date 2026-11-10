@@ -24,9 +24,12 @@ export function requestOverlayPermission(): void {
   nativeRequestOverlayPermission();
 }
 
-export async function showOverlay(): Promise<void> {
+export async function showOverlay(
+  appName?: string,
+  packageName?: string,
+): Promise<void> {
   if (Platform.OS !== 'android') return;
-  await nativeShowOverlay();
+  await nativeShowOverlay(appName, packageName);
 }
 
 export async function hideOverlay(): Promise<void> {

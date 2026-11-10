@@ -43,7 +43,10 @@ export function OverlayDebugPanel() {
           openAccessibilitySettings();
         }}
       />
-      <StyledButton label="Show overlay" onPress={() => void showOverlay()} />
+      <StyledButton
+        label="Show overlay"
+        onPress={() => void showOverlay('Test App', 'com.pinkytime.testapp')}
+      />
       <StyledButton label="Hide overlay" onPress={() => void hideOverlay()} />
       <StyledButton label="Sync tracked apps" onPress={() => void syncTrackedApps()} />
     </View>

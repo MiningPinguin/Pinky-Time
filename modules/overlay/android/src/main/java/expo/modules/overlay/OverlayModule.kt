@@ -36,10 +36,10 @@ class OverlayModule : Module() {
       null
     }
 
-    AsyncFunction("show") {
+    AsyncFunction("show") { appName: String?, packageName: String? ->
       val context = appContext.reactContext
         ?: throw IllegalStateException("React context is not available")
-      OverlayManager.show(context)
+      OverlayManager.show(context, appName, packageName)
       null
     }
 
